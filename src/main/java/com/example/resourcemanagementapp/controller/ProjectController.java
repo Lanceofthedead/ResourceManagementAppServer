@@ -1,5 +1,6 @@
 package com.example.resourcemanagementapp.controller;
 
+import com.example.resourcemanagementapp.dto.ProjectEmployeeDTO;
 import com.example.resourcemanagementapp.exception.ResourceNotFoundException;
 import com.example.resourcemanagementapp.model.Project;
 import com.example.resourcemanagementapp.repository.ProjectRepository;
@@ -59,5 +60,16 @@ public class ProjectController {
     @DeleteMapping("/delete/{projectId}")
     public ResponseEntity<?> deleteProject(@PathVariable Long projectId) {
         return projectService.deleteProject(projectId);
+    }
+
+    // get project employee
+    @GetMapping("/project-employee-list")
+    List<ProjectEmployeeDTO> getAllProjectEmployee(){
+        return projectService.getAllProjectEmployee();
+    }
+
+    @GetMapping("/project-employee/{projectId}")
+    public ProjectEmployeeDTO getProjectEmployee(@PathVariable(value = "projectId") Long projectId){
+        return projectService.getProjectEmployee(projectId);
     }
 }

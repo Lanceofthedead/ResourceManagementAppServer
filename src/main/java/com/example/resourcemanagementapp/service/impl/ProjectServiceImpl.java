@@ -1,5 +1,6 @@
 package com.example.resourcemanagementapp.service.impl;
 
+import com.example.resourcemanagementapp.dto.ProjectEmployeeDTO;
 import com.example.resourcemanagementapp.exception.ResourceNotFoundException;
 import com.example.resourcemanagementapp.model.Project;
 import com.example.resourcemanagementapp.repository.ProjectRepository;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,4 +54,23 @@ public class ProjectServiceImpl implements ProjectService {
             return ResponseEntity.ok().build();
         }).orElseThrow(() -> new ResourceNotFoundException("ProjectId " + projectId + " not found"));
     }
+
+    @Override
+    public List<ProjectEmployeeDTO> getAllProjectEmployee() {
+        List<Project> projects = projectRepository.findAll();
+        List<ProjectEmployeeDTO> projectEmployeeDTOS = new ArrayList<>();
+        projects.forEach(p ->
+                projectEmployeeDTOS.add(new ProjectEmployeeDTO(p.getProjectName(), p.getClientName(),p.getEmployees())
+                ));
+                return projectEmployeeDTOS;
+    }
+
+    @Override
+    public ProjectEmployeeDTO getProjectEmployee(@PathVariable(value = "projectId") Long projectId) {
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ResourceNotFoundException("ProjectId" + projectId + " not Found"));
+        ProjectEmployeeDTO projectEmployeeDTO;
+        return new ProjectEmployeeDTO(project.getProjectName(), project.getClientName(), project.getEmployees());
+    }
+
+
 }

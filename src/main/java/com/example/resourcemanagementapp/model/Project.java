@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.*;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,7 +29,7 @@ public class Project {
 
     @ManyToMany(mappedBy = "projects")
     @JsonIgnore
-    private Set<Employee> employees;
+    private List<Employee> employees;
 
 
 
@@ -58,13 +60,11 @@ public class Project {
         this.projectId = projectId;
     }
 
-    public Set<Employee> getEmployees() {
+    public List<Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(Set<Employee> employees) {
+    public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
-
-
 }
